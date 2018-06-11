@@ -1,0 +1,45 @@
+<!--mine.wxml-->
+<import src="/templates/modal.wxml" />
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登陆 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usercontent">
+    <view class="userspirit">
+      <view class="spirit-item spirit-total">
+        <text>总元气值：</text>
+        <text>{{spiritTotal}}</text>
+      </view>
+      <view class="spirit-item spirit-record">
+        <text>元气记录</text>
+        <view class="arrow-btn" bindtap="handleShowRecord"></view>
+      </view>
+    </view>
+    <view class="spirit-desc">
+      <text>说明：只有参与官方活动才能使用元气值兑换书籍，具体参与方式可关注公众号“与日俱进”</text>
+    </view>
+    <view class="spirit-merchand">
+      <image bindtap="bindViewTap" class="spirit-img" src="{{spiritImg}}" background-size="cover"></image>
+    </view>
+  </view>
+  <template is="modal" data="{{ spiritList, modalHide }}"/>
+</view>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

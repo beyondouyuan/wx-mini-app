@@ -1,0 +1,31 @@
+/**index.wxss**/
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300rpx;
+  background-color: #1988CC;
+}
+
+.main-content {
+  padding: 0 20rpx;
+}
+.punchdata {
+  padding: 20rpx 0;
+}
+.punch-item {
+  height: 90rpx;
+  line-height: 90rpx;
+}
+.punch-item text {
+  font-size: 28rpx;
+  color: #999999
+}
+.punch-btn {
+  height: auto;
+  margin: 100rpx auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

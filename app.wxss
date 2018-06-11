@@ -1,0 +1,77 @@
+/**app.wxss**/
+
+page {
+  padding-bottom: 72rpx;
+  background-color: #F4F4F4;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+}
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  font-size: 32rpx;
+  color: #FFFFFF;
+}
+/**/
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.25);
+  text-shadow: 0rpx -1rpx 1rpx rgba(25,136,204, 0.2);
+  width: 200rpx;
+  height: 200rpx;
+  font-size: 28rpx;
+  color: #e1dada;
+  border-radius: 50%;
+  text-decoration: none;
+  border: none;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1988CC), color-stop(100%, #19A9FF));
+  background-image: -moz-gradient(linear, left top, left bottom, color-stop(0%, #1988CC), color-stop(100%, #19A9FF));
+  transition: background-image 0.3s ease-in-out, text-shadow 0.5s linear, color 0.5s linear;
+  box-shadow: 0rpx 0rpx 2rpx rgba(0, 0, 0, 0.15), 5rpx 5rpx 7.5rpx rgba(255, 255, 255, 0.4), -5rpx 5rpx 7.5rpx rgba(255, 255, 255, 0.4), -7.5rpx -7.5rpx 7.5rpx rgba(255, 255, 255, 0.4), 7.5rpx -7.5rpx 7.5rpx rgba(255, 255, 255, 0.4), inset 0rpx 2rpx 0rpx rgba(0, 0, 0, 0.04);
+  -webkit-transition: box-shadow 0.3s ease-in-out,  background-image 0.3s ease-in-out, text-shadow 0.5s linear, color 0.5s linear;
+  -moz-transition: box-shadow 0.3s ease-in-out,  background-image 0.3s ease-in-out, text-shadow 0.5s linear, color 0.5s linear;
+}
+.button.gray {
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #CCCCCC), color-stop(100%, #CCCCCC));
+  background-image: -moz-gradient(linear, left top, left bottom, color-stop(0%, #CCCCCC), color-stop(100%, #CCCCCC));
+  box-shadow: none;
+}
+.button.active {
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #19A9FF), color-stop(100%, #1988CC));
+  background-image: -moz-gradient(linear, left top, left bottom, color-stop(0%, #19A9FF), color-stop(100%, #1988CC));
+   box-shadow: 0rpx 0rpx 2rpx rgba(0, 0, 0, 0.15), 5rpx 5rpx 7.5rpx rgba(255, 255, 255, 0.4), -5rpx 5rpx 7.5rpx rgba(255, 255, 255, 0.4), -7.5rpx -7.5rpx 7.5rpx rgba(255, 255, 255, 0.4), 7.5rpx -7.5rpx 7.5rpx rgba(255, 255, 255, 0.4), inset 0rpx 2rpx 0rpx rgba(0, 0, 0, 0.04);
+}
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.25);
+  color: #e1dada;
+  font-size: 28rpx;
+  text-shadow: 0rpx -1rpx 1rpx rgba(25,136,204, 0.2);
+  text-decoration: none;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1988CC), color-stop(100%, #19A9FF));
+  background-image: -moz-gradient(linear, left top, left bottom, color-stop(0%, #1988CC), color-stop(100%, #19A9FF));
+  box-shadow: 0rpx 0rpx 1rpx rgba(25,136,204, 0.25), 2.5rpx 2.5rpx 3.5rpx #19A9FF, -2rpx 2rpx 3.5rpx #19A9FF, -3.5rpx -3.5rpx 3.5rpx rgba(255, 255, 255, 0.4), 3.5rpx -3.5rpx 3.5rpx rgba(255, 255, 255, 0.4), inset 0rpx 1rpx 0rpx white;
+  -webkit-transition: box-shadow 0.3s ease-in-out,  background-image 0.3s ease-in-out, text-shadow 0.5s linear, color 0.5s linear;
+  -moz-transition: box-shadow 0.3s ease-in-out,  background-image 0.3s ease-in-out, text-shadow 0.5s linear, color 0.5s linear;
+}
+.btn.active {
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #19A9FF), color-stop(100%, #1988CC));
+  background-image: -moz-gradient(linear, left top, left bottom, color-stop(0%, #19A9FF), color-stop(100%, #1988CC));
+   box-shadow: 0rpx 0rpx 2rpx rgba(0, 0, 0, 0.15), 5rpx 5rpx 7.5rpx rgba(255, 255, 255, 0.4), -5rpx 5rpx 7.5rpx rgba(255, 255, 255, 0.4), -7.5rpx -7.5rpx 7.5rpx rgba(255, 255, 255, 0.4), 7.5rpx -7.5rpx 7.5rpx rgba(255, 255, 255, 0.4), inset 0rpx 2rpx 0rpx rgba(0, 0, 0, 0.04);
+}

@@ -1,0 +1,22 @@
+.nav-bar {
+  height: 80rpx;
+  background: #1988CC;
+  width:100%;
+  position: fixed;
+  top:0;
+  z-index:1;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.nav-bar-item {
+  /*width: 150rpx;*/
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 30rpx;
+  transition: all ease-in-out 0.3s
+}
+.nav-bar-active {
+  color: #FFDD44;
+  font-size: 34rpx;
+}

@@ -1,0 +1,47 @@
+/**mine.wxss**/
+@import '/templates/modal.wxss';
+
+.userinfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 300rpx;
+  background-color: #1988CC;
+}
+
+
+.usercontent {
+  padding: 0 20rpx;
+}
+.userspirit,
+.spirit-desc {
+  padding: 20rpx 0;
+}
+.spirit-item {
+  height: 90rpx;
+  line-height: 90rpx;
+}
+.spirit-desc text {
+  font-size: 32rpx;
+  color: #999999
+}
+.spirit-item text {
+  font-size: 28rpx;
+  color: #999999
+}
+.spirit-img {
+  width: 100%;
+  max-width: 100%;
+}
+.arrow-btn {
+  margin-left: 16rpx;
+  height: 0;
+  width: 0;
+  border-top: 20rpx solid #1988CC;
+  border-right: 20rpx solid transparent;
+  border-left: 20rpx solid transparent;
+}
+.spirit-record {
+  display: flex;
+  align-items: center;
+}

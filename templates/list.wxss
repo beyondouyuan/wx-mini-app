@@ -1,0 +1,65 @@
+.scroll-rank-list {
+    overflow: hidden;
+    margin-top: 72rpx;
+}
+.rank-list {
+    position: relative;
+    overflow: hidden;
+    padding: 15rpx 30rpx;
+    border-bottom: 1rpx solid #EEEEEE;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rank-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.rank-item {
+    margin-left: 50rpx;
+}
+.rank-item text {
+    font-size: 28rpx;
+    color: #464646;
+}
+.rank-list:nth-child(-n+2) text {
+    color: #F3AD09
+}
+/**/
+.star {
+    border-color: #FFDD44 transparent transparent transparent;
+    border-style: solid;
+    border-top-width: 3.5px;
+    border-right-width: 7px;
+    border-left-width: 7px;
+    height: 0;
+    position: absolute;
+    width: 0;
+}
+.star:before,
+.star:after {
+    border-color: #FFDD44 transparent transparent transparent;
+    border-style: solid;
+    border-top-width: 3.5px;
+    border-right-width: 7px;
+    border-left-width: 7px;
+    content: '';
+    display: block;
+    height: 0;
+    left: -7px;
+    position: absolute;
+    top: -3.5px;
+    width: 0;
+}
+.star:before {
+    transform: rotate(70deg);
+}
+.star:after {
+    transform: rotate(-70deg);
+}
+.txt-id {
+    width: 48rpx;
+    text-align: center;
+}

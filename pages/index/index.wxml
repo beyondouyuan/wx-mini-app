@@ -1,0 +1,22 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <block>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="main-content">
+    <view class="punchdata">
+      <view class="punch-item"><text>{{todayTxt}}：{{punchData.todayStep}} 步</text></view>
+      <view class="punch-item"><text>{{punchTxt}}：{{punchData.punch}} 天</text></view>
+      <view class="punch-item"><text>{{totalTxt}}：{{punchData.stepTotal}} 步</text></view>
+    </view>
+    <view class="punch-btn">
+      <button type="primary" class="button {{btnClass}}" bindtap="handlePunch">{{btnTxt}}</button>
+    </view>
+    <view class="punch-btn">
+      <button type="primary" class="btn" open-type="share">{{shareTxt}}</button>
+    </view>
+  </view>
+</view>

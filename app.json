@@ -1,0 +1,31 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/sign/sign",
+    "pages/rank/rank",
+    "pages/mine/mine"
+  ],
+  "window":{
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#1988CC",
+    "navigationBarTitleText": "是兄弟就来打卡",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#7A7A7A",
+    "backgroundColor": "#FFFFFF",
+    "selectedColor": "#1988CC",
+    "list": [{
+        "pagePath": "pages/index/index",
+        "text": "打卡",
+        "iconPath": "assets/icons/all.png",
+        "selectedIconPath": "assets/icons/all_active.png"
+      }, {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "assets/icons/mine.png",
+        "selectedIconPath": "assets/icons/mine_active.png"
+      }]
+  }
+}

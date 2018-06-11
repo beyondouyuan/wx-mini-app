@@ -1,0 +1,20 @@
+<template name="list">
+    <scroll-view class="scroll-rank-list" scroll-y="true" style="height: 100%" bindscrolltolower="lower">
+        <view class="rank-list-wrapper">
+            <block wx:for="{{rankList}}" wx:key="item">
+                <view class="rank-list">
+                    <view wx:if="{{item.id <= '3'}}" class="star">
+                    </view>
+                    <view class="rank-item">
+                        <text class="txt-id">{{item.id}}</text>
+                        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{item.avatar}}" background-size="cover"></image>
+                        <text>{{item.nickname}}</text>
+                    </view>
+                    <view class="rank-item">
+                        <text>{{item.step}}</text>
+                    </view>
+                </view>
+            </block>
+        </view>
+    </scroll-view>
+</template>

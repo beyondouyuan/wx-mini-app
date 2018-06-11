@@ -1,0 +1,17 @@
+<template name="nav">
+    <view class="nav-bar">
+        <block
+            wx:for="{{navList}}"
+            wx:key="item"
+            >
+            <view
+                id="{{item.id}}"
+                data-index="{{index}}"
+                class="nav-bar-item {{index == activeIndex ? 'nav-bar-active' : ''}}"
+                catchtap="handleTap"
+            >
+                {{item.title}}
+            </view>
+        </block>
+    </view>
+</template>

@@ -1,0 +1,10 @@
+<!--index.wxml-->
+<import src="/templates/nav.wxml" />
+<import src="/templates/list.wxml" />
+<view class="container">
+  <template is="nav" data="{{ navList, activeIndex }}"/>
+  <view class="step-total">
+    <text>本群今日累计步数：{{stepTotal}} 步</text>
+  </view>
+  <template is="list" data="{{ rankList }}"/>
+</view>
