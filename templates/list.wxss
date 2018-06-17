@@ -1,65 +1,93 @@
 .scroll-rank-list {
     overflow: hidden;
+    height: 100%;
     margin-top: 72rpx;
+    background-color: #FFFFFF;
+}
+
+.rank-list-wrapper {
+    height: 100%;
+    overflow: hidden;
 }
 .rank-list {
     position: relative;
     overflow: hidden;
-    padding: 15rpx 30rpx;
-    border-bottom: 1rpx solid #EEEEEE;
+    height: 140rpx;
+    padding: 0 54rpx 0  30rpx;
+    border-bottom: 1rpx solid #D0D0D0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.rank-list.user {
+    background-color: #fffff0;
+}
+.rank-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.rank-list:nth-child(-n+2) .rank-item .txt-step {
+    color: #EDA344
+}
+.id-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.id-img {
+    position: absolute;
+    z-index: 1;
+    width: 48rpx;
+    height: 48rpx;
 }
 
-.rank-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.rank-item {
-    margin-left: 50rpx;
-}
-.rank-item text {
-    font-size: 28rpx;
-    color: #464646;
-}
-.rank-list:nth-child(-n+2) text {
-    color: #F3AD09
-}
-/**/
-.star {
-    border-color: #FFDD44 transparent transparent transparent;
-    border-style: solid;
-    border-top-width: 3.5px;
-    border-right-width: 7px;
-    border-left-width: 7px;
-    height: 0;
-    position: absolute;
-    width: 0;
-}
-.star:before,
-.star:after {
-    border-color: #FFDD44 transparent transparent transparent;
-    border-style: solid;
-    border-top-width: 3.5px;
-    border-right-width: 7px;
-    border-left-width: 7px;
-    content: '';
-    display: block;
-    height: 0;
-    left: -7px;
-    position: absolute;
-    top: -3.5px;
-    width: 0;
-}
-.star:before {
-    transform: rotate(70deg);
-}
-.star:after {
-    transform: rotate(-70deg);
-}
 .txt-id {
-    width: 48rpx;
+    width: 36rpx;
+    max-width: 36rpx;
     text-align: center;
+}
+.rank-item .txt-id {
+    font-size: 32rpx;
+    color: #333333;
+}
+.rank-item .txt-nickname {
+    font-size: 30rpx;
+    color: #333333;
+}
+.rank-item .txt-step {
+    font-size: 48rpx;
+    color: #61B03B
+}
+.no-container {
+    -webkit-transition: all 0.1s ease;
+    -o-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+    text-align: center;
+    background: transparent;
+}
+.no-data {
+    font-size: 28rpx;
+    color: #CCCCCC;
+}
+.hasno-punch {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #FFFFFF;
+}
+.btn {
+    width: 150rpx;
+    padding: 0 20rpx;
+}
+.no-first {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    position: fixed;
+    bottom: 0;
+    background-color: #FFFFFF;
 }

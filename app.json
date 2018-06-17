@@ -1,31 +1,36 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs",
+    "pages/auth/auth",
     "pages/sign/sign",
     "pages/rank/rank",
     "pages/mine/mine"
   ],
   "window":{
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#1988CC",
+    "navigationBarBackgroundColor": "#FFFFFF",
     "navigationBarTitleText": "是兄弟就来打卡",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#7A7A7A",
     "backgroundColor": "#FFFFFF",
-    "selectedColor": "#1988CC",
+    "selectedColor": "#3C82FE",
     "list": [{
         "pagePath": "pages/index/index",
-        "text": "打卡",
-        "iconPath": "assets/icons/all.png",
-        "selectedIconPath": "assets/icons/all_active.png"
+        "text": "首页",
+        "iconPath": "assets/icons/home-unselected-icon.png",
+        "selectedIconPath": "assets/icons/home-selected-icon.png"
       }, {
         "pagePath": "pages/mine/mine",
         "text": "我的",
-        "iconPath": "assets/icons/mine.png",
-        "selectedIconPath": "assets/icons/mine_active.png"
+        "iconPath": "assets/icons/i-unselected-icon.png",
+        "selectedIconPath": "assets/icons/i-selected-icon.png"
+      }, {
+        "pagePath": "pages/rank/rank",
+        "text": "排行",
+        "iconPath": "assets/icons/i-unselected-icon.png",
+        "selectedIconPath": "assets/icons/i-selected-icon.png"
       }]
   }
 }

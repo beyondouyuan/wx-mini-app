@@ -1,22 +1,34 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo">
-    <block>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+  <view class="bg-wrapper">
+    <image src="../../assets/images/the-cover.png" class="cover-bg" mode="widthFix" background-size="cover"></image>
   </view>
   <view class="main-content">
-    <view class="punchdata">
-      <view class="punch-item"><text>{{todayTxt}}：{{punchData.todayStep}} 步</text></view>
-      <view class="punch-item"><text>{{punchTxt}}：{{punchData.punch}} 天</text></view>
-      <view class="punch-item"><text>{{totalTxt}}：{{punchData.stepTotal}} 步</text></view>
+    <view class="userinfo">
+      <block>
+        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="widthFix"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      </block>
     </view>
-    <view class="punch-btn">
-      <button type="primary" class="button {{btnClass}}" bindtap="handlePunch">{{btnTxt}}</button>
+    <view class="punch-wrapper">
+      <view class="punch-item today-item">
+        <text class="txt today-txt">{{todayStep}}</text>
+        <text class="txt tips-txt">{{todayTxt}}</text>
+      </view>
+      <view class="punch-item step-item">
+        <text class="txt step-txt">{{stepTotal}}</text>
+        <text class="txt tips-txt">{{totalTxt}}</text>
+      </view>
+      <view class="punch-item join-item">
+        <text class="txt join-txt">{{punchTotal}}</text>
+        <text class="txt tips-txt">{{punchTxt}}</text>
+      </view>
     </view>
-    <view class="punch-btn">
-      <button type="primary" class="btn" open-type="share">{{shareTxt}}</button>
+    <view class="btn-wrapper">
+      <button type="primary" class="btn {{btnClass}}" bindtap="handlePunch">{{btnTxt}}</button>
+    </view>
+    <view class="btn-wrapper share-btn">
+      <button type="primary" class="btn reverse" open-type="share">{{shareTxt}}</button>
     </view>
   </view>
 </view>

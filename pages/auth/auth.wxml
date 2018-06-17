@@ -1,0 +1,6 @@
+<!--logs.wxml-->
+<view class="container get-info">
+  <view class="btn-wrapper">
+      <button open-type="getUserInfo" class="btn" bindgetuserinfo="getUserInfo"> 登陆 </button>
+    </view>
+</view>

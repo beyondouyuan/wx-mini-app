@@ -1,14 +1,14 @@
 <template name="modal">
   <modal class="modal" hidden="{{modalHide}}" no-cancel bindconfirm="modalOk" confirmText="我知道了">
-    <scroll-view class="scroll-modal-list" scroll-y="true" style="height: 500rpx">
+    <scroll-view class="scroll-modal-list" scroll-y="true" style="height: 500rpx" bindscrolltolower="lower">
       <view class="modal-wrapper">
-        <block wx:for="{{spiritList}}" wx:key="item">
+        <block wx:for="{{powersList}}" wx:key="item">
           <view class="modal-list">
             <view class="modal-item">
-              <text class="txt-modal">获得{{item.spirit}}金币</text>
+              <text class="txt-modal">获得{{item.num}}元气</text>
             </view>
             <view class="modal-item">
-              <text>{{item.dateTime}}</text>
+              <text>{{item.created_at}}</text>
             </view>
           </view>
         </block>

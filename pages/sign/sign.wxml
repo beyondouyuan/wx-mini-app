@@ -3,28 +3,30 @@
   <view class="main-content">
     <view class="signdata">
       <view class="sign-wrapper">
-        <view class="sign-text">
-          <textarea auto-height placeholder="一句话签名" placeholder-style="color:white;" />
-        </view>
         <view class="sign-info">
+          <view class="quote-txt">
+            <text class="txt">{{quoteTxt}}</text>
+          </view>
           <view class="join">
-            <text>{{joinTxt}}{{signData.joinTotal}} 天，</text>
+            <text class="txt">{{joinTxt}}<text class="strong">{{punchTotal}}</text>天</text>
           </view>
           <view class="run">
-            <text>{{runTxt}}{{signData.runTotal}} 步</text>
+            <text class="txt">{{runTxt}}<text class="strong">{{stepTotal}}</text>步</text>
           </view>
         </view>
       </view>
-      <image src="{{signData.bg}}" class="sign-img" background-size="100% 100%" mode="widthFix"></image>
-      <view class="qr-code">
+      <image src="{{canvasBg}}" class="sign-img" background-size="cover" mode="scaleToFill"></image>
+    </view>
+     <view class="qr-code">
         <image src="{{qrcode}}" class="sign-img qr"  mode="widthFix"></image>
         <image src="{{avatarUrl}}" class="sign-img avatar"  mode="widthFix"></image>
-      </view>
     </view>
-
-    <view class="punch-btn">
-      <button wx:if="{{!doShare}}" type="primary" class="btn" bindtap="handleShare">保存图片</button>
-      <button wx:else type="primary" class="btn" open-type="share">分享</button>
+    <view class="qrcode-txt">
+        <text class="txt">{{qrcodeTxt}}</text>
+    </view>
+    <view class="btn-wrapper">
+      <button wx:if="{{!doShare}}" type="primary" class="btn light" bindtap="handleSaveCard">保存图片并分享</button>
+      <button wx:else type="primary" class="btn light" open-type="share">分享</button>
     </view>
   </view>
 </view>

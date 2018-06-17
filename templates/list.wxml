@@ -1,20 +1,62 @@
 <template name="list">
     <scroll-view class="scroll-rank-list" scroll-y="true" style="height: 100%" bindscrolltolower="lower">
-        <view class="rank-list-wrapper">
+        <view class="rank-list-wrapper" wx:if="{{rankList.length > 0}}">
             <block wx:for="{{rankList}}" wx:key="item">
-                <view class="rank-list">
-                    <view wx:if="{{item.id <= '3'}}" class="star">
-                    </view>
-                    <view class="rank-item">
-                        <text class="txt-id">{{item.id}}</text>
-                        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{item.avatar}}" background-size="cover"></image>
-                        <text>{{item.nickname}}</text>
-                    </view>
-                    <view class="rank-item">
-                        <text>{{item.step}}</text>
-                    </view>
+                <view class="rank-list {{item.nick == userInfo.nickName ?'user':''}} ">
+                    <block>
+                        <view class="rank-item">
+                            <view class="id-box">
+                                <image wx:if="{{index == '0'}}" class="id-img" src="/assets/images/gold-icon.png" background-size="cover" mode="widthFix"></image>
+                                <image wx:if="{{index == '1'}}" class="id-img" src="/assets/images/silver-icon.png" background-size="cover" mode="widthFix"></image>
+                                <image wx:if="{{index == '2'}}" class="id-img" src="/assets/images/copper-icon.png" background-size="cover" mode="widthFix"></image>
+                                <text class="txt-id">{{index + 1}}</text>
+                            </view>
+                            <image class="userinfo-avatar" src="{{item.avatar}}" background-size="cover"></image>
+                            <text class="txt-nickname">{{item.nick}}</text>
+                        </view>
+                        <view class="rank-item">
+                            <text class="txt-step" wx:if="{{item.nick == userInfo.nickName && !hasPunch}}">未打卡</text>
+                            <text class="txt-step" wx:else>{{item.steps}}</text>
+                        </view>
+                    </block>
                 </view>
+                 <block>
+                    <view class="hasno-punch" wx:if="{{item.nick == userInfo.nickName && !hasPunch}}">
+                        <view class="rank-list">
+                            <view class="rank-item">
+                                <image class="userinfo-avatar" src="{{item.avatar}}" background-size="cover"></image>
+                                <text class="txt-nickname">{{item.nick}}</text>
+                            </view>
+                            <view class="rank-item">
+                                <text class="txt-step">{{item.steps}}</text>
+                            </view>
+                            <view class="rank-item">
+                                <button class="btn" bindtap="handlePunch">打卡</button>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+                <block>
+                    <view class="rank-list no-first" wx:if="{{item.nick == userInfo.nickName && index != '0'}}">
+                        <view class="rank-item">
+                            <view class="id-box">
+                                <image wx:if="{{index == '0'}}" class="id-img" src="/assets/images/gold-icon.png" background-size="cover" mode="widthFix"></image>
+                                <image wx:if="{{index == '1'}}" class="id-img" src="/assets/images/silver-icon.png" background-size="cover" mode="widthFix"></image>
+                                <image wx:if="{{index == '2'}}" class="id-img" src="/assets/images/copper-icon.png" background-size="cover" mode="widthFix"></image>
+                                <text class="txt-id">{{index + 1}}</text>
+                            </view>
+                            <image class="userinfo-avatar" src="{{item.avatar}}" background-size="cover"></image>
+                            <text class="txt-nickname">{{item.nick}}</text>
+                        </view>
+                        <view class="rank-item">
+                                <text class="txt-step">{{item.steps}}</text>
+                            </view>
+                    </view>
+                </block>
             </block>
+        </view>
+        <view class="no-container" wx:else>
+            <text class="no-data">暂无数据</text>
         </view>
     </scroll-view>
 </template>

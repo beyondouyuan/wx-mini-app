@@ -1,47 +1,108 @@
 //app.js
+import {
+    requestOpenidGid,
+    requestSession,
+    requestUpdateuserInfo
+} from '/api/index'
+import {
+    isToday
+} from '/utils/util'
 App({
-  onLaunch: function () {
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    // 登录
-    wx.login({
-      success: res => {
-        // console.log(res)
-        this.globalData.code = res.code
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
-    })
-    // wx.setEnableDebug({
-    //   enableDebug: false
-    // })
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        // console.log(res)
-        // 最新小程序已经不再支持自动弹出授权框
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
-          })
+    globalData: {
+        userInfo: null,
+        code: null,
+        sessionId: null,
+        opengid: null,
+        punchTotal: 0,
+        stepTotal: 0,
+        hasPunch: false
+    },
+    onLaunch: function(option) {
+        const self = this
+        if (this.PunchReadyCallback) {
+            this.PunchReadyCallback(this.globalData.hasPunch)
         }
-      }
-    })
-  },
-  globalData: {
-    userInfo: null,
-    code: null
-  }
+        if (this.userInfoReadyCallback) {
+            this.userInfoReadyCallback(this.globalData.userInfo)
+        }
+        wx.checkSession({
+            success: function(res) {
+                console.log(res)
+                if (!wx.getStorageSync('sessionId')) {
+                    self.wxLogin()
+                }
+            },
+            fail: function(res) {
+                self.wxLogin(self)
+            }
+        })
+    },
+    wxLogin: function(self) {
+        wx.login({
+            success: res => {
+                console.log(res.code)
+                const {
+                    code
+                } = res
+                self.globalData.code = code
+                wx.setStorageSync('code', code)
+                if (res.code) {
+                    requestSession(code).then(res => {
+                        const {
+                            session_id
+                        } = res
+                        self.globalData.sessionId = session_id
+                        wx.setStorageSync('sessionId', session_id)
+                        if (self.sessionIdReadyCallback) {
+                            self.sessionIdReadyCallback(res)
+                        }
+                    })
+                }
+            },
+            fail: res => {
+                console.log(res)
+            }
+        })
+    },
+    onShow: function(option) {
+        const self = this
+        const punchTime = wx.getStorageSync('punchTime')
+        console.log(punchTime)
+        if (punchTime && isToday(punchTime)) {
+            self.globalData.hasPunch = true
+        } else {
+            self.globalData.hasPunch = false
+        }
+        if (option.scene == 1044) {
+            wx.getShareInfo({
+                shareTicket: option.shareTicket,
+                success: function(res) {
+                    const {
+                        encryptedData,
+                        iv
+                    } = res
+                    const params = {
+                        encryptedData,
+                        iv,
+                        sessionId: wx.getStorageSync('sessionId')
+                    }
+                    requestOpenidGid(params).then(res => {
+                        const {
+                            opengid
+                        } = res
+                        self.globalData.opengid = opengid
+                        if (self.opengIdReadyCallback) {
+                            self.opengIdReadyCallback(res)
+                        }
+                        wx.setStorageSync('opengid', opengid)
+                    })
+                },
+                fail: function(res) {
+                    console.log(res)
+                }
+            })
+        }
+
+    }
+
 })

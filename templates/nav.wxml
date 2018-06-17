@@ -10,7 +10,7 @@
                 class="nav-bar-item {{index == activeIndex ? 'nav-bar-active' : ''}}"
                 catchtap="handleTap"
             >
-                {{item.title}}
+                <text>{{item.title}}</text>
             </view>
         </block>
     </view>

@@ -1,119 +1,87 @@
 const app = getApp()
 
-import { requestAccountInfo, requestSpirit } from '../../api/index'
+import { requestAccountInfo, requestPowers, requestPowerRecord } from '../../api/index'
 
-import { showShareAppMessage } from '../../utils/util'
+import { showShareAppMessage, parseTime, showMessageToast } from '../../utils/util'
 
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
+    sessionId: '',
     hasUserInfo: false,
     modalHide: true,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    spiritTotal: '',
+    powersTotal: 0,
     spiritImg: '',
-    spiritList: []
-  },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+    powersList: [],
+    currentPage: 1,
+    lastPage: 2
   },
   onShareAppMessage: function(res) {
     return showShareAppMessage()
   },
   onLoad: function () {
-    if (app.globalData.userInfo) {
+    wx.showShareMenu({
+      withShareTicket: true //要求小程序返回分享目标信息
+    })
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo) {
       this.setData({
-        userInfo: app.globalData.userInfo,
+        userInfo: userInfo,
         hasUserInfo: true
       })
-      // 更新用户信息
-       wx.setStorageSync('userInfo', app.globalData.userInfo)
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-         wx.setStorageSync('userInfo', res.userInfo)
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-          wx.setStorageSync('userInfo', res.userInfo)
-        }
-      })
     }
-    this.fetchAccountInfo()
+    this.fetchPowers()
   },
-  getUserInfo: function(e) {
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-    wx.setStorageSync('userInfo', e.detail.userInfo)
-    console.log(wx.getStorageSync('userInfo'))
-    // 自动返回首页
-    setTimeout(() => {
-      wx.switchTab({
-        url: '/pages/index/index'
+  fetchPowers: function() {
+    const sessionId = wx.getStorageSync('sessionId')
+    requestPowers(sessionId).then(res => {
+      console.log(res)
+      this.setData({
+        powersTotal: res
       })
-    }, 2000)
-  },
-  fetchAccountInfo: function() {
-    requestAccountInfo().then(res => {
-      if (res.code == '200') {
-        this.setData({
-          spiritTotal: res.spiritTotal,
-          spiritImg: res.img
-        })
-      } else {
-        console.log('请求出错')
-      }
     }).catch(e => {
       console.log(e)
     })
   },
-  fetchSpirit: function() {
-    requestSpirit().then(res => {
-      if (res.code == '200') {
-        this.setData({
-          spiritList: res.list
+  fetchPowerRecord: function() {
+    const sessionId = wx.getStorageSync('sessionId')
+    const page = this.data.currentPage
+    requestPowerRecord(sessionId, page).then(res => {
+        const { current_page, data, last_page } = res
+        const list = data.reverse().map((item, index) => {
+          item.created_at = parseTime(item.created_at, '{y}-{m}-{d}')
+          return item
         })
-      } else {
-        console.log('请求出错')
-      }
-    }).catch(e => {
-      console.log(e)
-    })
+        this.setData({
+          lastPage: last_page,
+          powersList: this.data.powersList.concat(list)
+        })
+      })
   },
   handleShowRecord: function() {
     this.setData({
-      modalHide: false
+      modalHide: false,
+      currentPage: 1,
+      powersList: []
     })
-    this.fetchSpirit()
+    this.fetchPowerRecord()
+  },
+  lower: function() {
+    if (this.data.currentPage >= this.data.lastPage) {
+      showMessageToast('没有更多数据了！' , 'none')
+      return;
+    } else {
+      this.setData({
+        currentPage: this.data.currentPage + 1
+      }, () => {
+        this.fetchPowerRecord()
+      })
+    }
   },
   modalOk: function() {
     this.setData({
       modalHide: true
     })
-  },
-  // feedback: function() {
-  //   wx.navigateTo({
-  //     url: '/pages/index/index',
-  //   })
-  // }
+  }
 })
 

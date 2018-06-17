@@ -1,3 +1,7 @@
+import {
+  requestOpenidGid,
+  requestRank
+} from '../api/index'
 export const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
@@ -70,14 +74,19 @@ export const showLoadingToast = (title = "加载中...") => {
   wx.showLoading({
     title,
     icon: 'loading',
-    mask: true,
-    duration: 2000
+    mask: true
+    // duration: 2000 // 不使用延时关闭，在网络请求成功后再关闭
   })
 }
 
-export const showSuccessToast = ({title = '打卡成功',cb}) => {
+export const showSuccessToast = ({
+  title = '打卡成功',
+  icon = 'none',
+  cb
+}) => {
   wx.showToast({
     title,
+    icon,
     success: cb()
   })
 }
@@ -90,7 +99,8 @@ export const showUpdateSuccessToast = (title = '更新成功') => {
 
 export const showErrorToast = (title = '操作失败') => {
   wx.showToast({
-    title
+    title,
+    icon: 'none'
   })
 }
 
@@ -105,59 +115,44 @@ export const showShareAppMessage = () => {
   return {
     title: '是兄弟就来打卡',
     desc: '是兄弟就来打卡',
-    path: `/pages/index/index`
+    path: `/pages/index/index`,
+    success: function(res) {
+      showMessageToast('分享成功', 'success')
+    },
+    fail: function(res) {
+      showMessageToast('分享失败', 'none')
+    }
   }
 }
 
-export const showGroupShareAppMessage = (imageUrl = '../../assets/icons/all_active.png') => {
+export const showGroupShareAppMessage = () => {
   return {
     title: '是兄弟就来打卡',
     desc: '是兄弟就来打卡，只要一分钟你就爱上介个游戏',
-    imageUrl, // 自定义分享图片 图片路径可以是网络图片，也可以是相对于分享页面的本地图片
-    path: `/pages/rank/rank`
+    path: `/pages/rank/rank`,
+    success: function(res) {
+      showMessageToast('分享成功', 'success')
+    },
+    fail: function(res) {
+      showMessageToast('分享失败', 'fail')
+    }
   }
 }
 
-// export const getToken = callback => {
-//   const app = getApp()
 
-//   if (app.globalData.token) {
-//     callback(app.globalData.token)
-//     return
-//   }
-//   wx.showModal({
-//     content: '请在PC版CNodeJS社区登录获取Access Token',
-//     showCancel: false,
-//     confirmText: '知道啦',
-//     complete() {
-//       wx.scanCode({
-//         success(res) {
-//           const accessToken = res.result
-//           rrequest({
-//             url: '/accessToken',
-//             method: 'POST',
-//             data: { accessToken },
-//             success(json) {
-//               app.globalData.token = accessToken,
-//               app.globalData.loginname = json.loginname,
-//               app.globalData.avatar_url = json.avatar_url
-//               callback(accessToken)
-//               wx.setStorage({
-//                 key: 'token',
-//                 data: accessToken
-//               })
-//             },
-//             errorExtraHandle(res) {
-//               wx.removeStorage({
-//                 key: 'token'
-//               })
-//             }
-//           })
-//         },
-//         fail(res) {
-//           showErrorToast('扫码失败')
-//         }
-//       })
-//     }
-//   })
-// }
+
+
+
+
+export const isToday = timer => {
+  return new Date(timer).toDateString() === new Date().toDateString() ? true : false
+}
+
+
+
+
+
+
+
+
+
