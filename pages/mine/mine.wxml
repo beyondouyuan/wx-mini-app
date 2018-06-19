@@ -32,7 +32,7 @@
       <view class="title">
         <text>商品图片</text>
       </view>
-      <image bindtap="bindViewTap" class="spirit-img" src="{{spiritImg}}" background-size="cover"></image>
+      <image bindtap="bindViewTap"  mode="scaleToFill" class="spirit-img" src="{{product_image}}" background-size="cover"></image>
     </view>
   </view>
   <template is="modal" data="{{ powersList, modalHide }}"/>

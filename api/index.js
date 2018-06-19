@@ -153,3 +153,27 @@ export const requestOpenidGid = data => {
     .then(res => res.data)
 
 }
+export const requestProductImage = () => {
+  const url = parseAPI('product_image')
+  const setting = {
+    method: 'POST'
+  }
+  return request(url, setting)
+    .then(res => res.data)
+
+}
+
+export const requestIsPunched = sessionId => {
+  const url = parseAPI('is_punched')
+  const setting = {
+    method: 'POST',
+    data: {
+      sessionId
+    }
+  }
+  return request(url, setting)
+    .then(res => res.data)
+
+}
+
+

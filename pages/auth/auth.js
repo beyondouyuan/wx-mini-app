@@ -24,13 +24,12 @@ Page({
           sessionId: wx.getStorageSync('sessionId')
         }
         requestUpdateuserInfo(params).then(res => {
-          console.log(res)
+          // console.log(res)
         })
         setTimeout(() => {
           wx.switchTab({
             url: '/pages/index/index',
             success: function (e) {
-              console.log(e)
                 const page = getCurrentPages().pop();
                 if (page == undefined || page == null) return;
                 page.onShow();
@@ -42,7 +41,6 @@ Page({
         this.setData({
           sessionId: res.sessionId
         })
-        console.log(res)
       }
     } else {
       // 在没有 open-type=getUserInfo 版本的兼容处理
@@ -59,7 +57,7 @@ Page({
             sessionId: wx.getStorageSync('sessionId')
           }
           requestUpdateuserInfo(params).then(res => {
-            console.log(res)
+            // console.log(res)
           })
           setTimeout(() => {
             wx.switchTab({
@@ -88,16 +86,14 @@ Page({
         sessionId: wx.getStorageSync('sessionId')
       }
       requestUpdateuserInfo(params).then(res => {
-        console.log(res)
+        // console.log(res)
       })
       // 自动返回首页
       setTimeout(() => {
         wx.switchTab({
           url: '/pages/index/index',
           success: function (e) {
-            console.log(e)
                 const page = getCurrentPages().pop();
-                console.log(page)
                 if (page == undefined || page == null) return;
                 page.onLoad();
               }

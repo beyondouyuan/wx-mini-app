@@ -113,8 +113,8 @@ export const showMessageToast = (title = '有新信息', icon = 'success') => {
 
 export const showShareAppMessage = () => {
   return {
-    title: '是兄弟就来打卡',
-    desc: '是兄弟就来打卡',
+    title: '一起来打卡',
+    desc: '一起来打卡',
     path: `/pages/index/index`,
     success: function(res) {
       showMessageToast('分享成功', 'success')
@@ -127,27 +127,53 @@ export const showShareAppMessage = () => {
 
 export const showGroupShareAppMessage = () => {
   return {
-    title: '是兄弟就来打卡',
-    desc: '是兄弟就来打卡，只要一分钟你就爱上介个游戏',
+    title: '一起来打卡',
+    desc: '一起来打卡',
     path: `/pages/rank/rank`,
     success: function(res) {
       showMessageToast('分享成功', 'success')
     },
     fail: function(res) {
-      showMessageToast('分享失败', 'fail')
+      showMessageToast('分享失败', 'none')
     }
   }
 }
-
-
-
-
 
 
 export const isToday = timer => {
   return new Date(timer).toDateString() === new Date().toDateString() ? true : false
 }
 
+
+export const compare = (prop, flag = 2) => {
+    return function (obj1, obj2) {
+        var val1 = obj1[prop];
+        var val2 = obj2[prop];
+        if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+            val1 = Number(val1);
+            val2 = Number(val2);
+        }
+        // 升序
+        if (flag == 1) {
+          if (val1 < val2) {
+            return -1;
+          } else if (val1 > val2) {
+              return 1;
+          } else {
+              return 0;
+          }
+        } else if (flag == 2) { // 降序
+          if (val1 < val2) {
+            return 1;
+          } else if (val1 > val2) {
+              return -1;
+          } else {
+              return 0;
+          }
+        }
+
+    }
+}
 
 
 

@@ -13,5 +13,21 @@
   <view class="step-total">
     <text>本群{{rankType}}累计步数：{{stepTotal}} 步</text>
   </view>
-  <template is="list" data="{{ rankList, userInfo, hasPunch }}"/>
+  <template is="list" data="{{ rankList, userInfo, hasPunch, tab }}"/>
+  <block>
+        <view class="hasno-punch" wx:if="{{!hasPunch}}">
+            <view class="rank-list">
+                <view class="rank-item">
+                    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+                    <text class="txt-nickname">{{userInfo.nickName}}</text>
+                </view>
+                <view class="rank-item">
+                    <text class="txt-step">{{todayStep}}</text>
+                </view>
+                <view class="rank-item">
+                    <button class="btn" bindtap="handlePunch">打卡</button>
+                </view>
+            </view>
+        </view>
+    </block>
 </view>

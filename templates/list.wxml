@@ -15,27 +15,11 @@
                             <text class="txt-nickname">{{item.nick}}</text>
                         </view>
                         <view class="rank-item">
-                            <text class="txt-step" wx:if="{{item.nick == userInfo.nickName && !hasPunch}}">未打卡</text>
+                            <text class="txt-step" wx:if="{{item.nick == userInfo.nickName && tab == 'today' && !hasPunch}}">未打卡</text>
                             <text class="txt-step" wx:else>{{item.steps}}</text>
                         </view>
                     </block>
                 </view>
-                 <block>
-                    <view class="hasno-punch" wx:if="{{item.nick == userInfo.nickName && !hasPunch}}">
-                        <view class="rank-list">
-                            <view class="rank-item">
-                                <image class="userinfo-avatar" src="{{item.avatar}}" background-size="cover"></image>
-                                <text class="txt-nickname">{{item.nick}}</text>
-                            </view>
-                            <view class="rank-item">
-                                <text class="txt-step">{{item.steps}}</text>
-                            </view>
-                            <view class="rank-item">
-                                <button class="btn" bindtap="handlePunch">打卡</button>
-                            </view>
-                        </view>
-                    </view>
-                </block>
                 <block>
                     <view class="rank-list no-first" wx:if="{{item.nick == userInfo.nickName && index != '0'}}">
                         <view class="rank-item">

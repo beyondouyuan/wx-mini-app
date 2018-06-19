@@ -15,21 +15,26 @@ App({
         opengid: null,
         punchTotal: 0,
         stepTotal: 0,
+        todayStep: 0,
         hasPunch: false
     },
     onLaunch: function(option) {
         const self = this
-        if (this.PunchReadyCallback) {
-            this.PunchReadyCallback(this.globalData.hasPunch)
-        }
         if (this.userInfoReadyCallback) {
             this.userInfoReadyCallback(this.globalData.userInfo)
         }
         wx.checkSession({
             success: function(res) {
-                console.log(res)
-                if (!wx.getStorageSync('sessionId')) {
-                    self.wxLogin()
+                const sessionId = wx.getStorageSync('sessionId')
+                const userInfo = wx.getStorageSync('userInfo')
+                if (sessionId && userInfo) {
+                    const params = {
+                        userInfo,
+                        sessionId
+                    }
+                    requestUpdateuserInfo(params).then(res => {
+                        // console.log(res)
+                    })
                 }
             },
             fail: function(res) {
@@ -40,39 +45,34 @@ App({
     wxLogin: function(self) {
         wx.login({
             success: res => {
-                console.log(res.code)
                 const {
                     code
                 } = res
                 self.globalData.code = code
                 wx.setStorageSync('code', code)
-                if (res.code) {
+                if (code) {
                     requestSession(code).then(res => {
-                        const {
-                            session_id
-                        } = res
-                        self.globalData.sessionId = session_id
-                        wx.setStorageSync('sessionId', session_id)
-                        if (self.sessionIdReadyCallback) {
-                            self.sessionIdReadyCallback(res)
+                        if (res.errcode != '40163') {
+                            const {
+                                session_id
+                            } = res
+                            self.globalData.sessionId = session_id
+                            wx.setStorageSync('sessionId', session_id)
+                            if (self.sessionIdReadyCallback) {
+                                self.sessionIdReadyCallback(res)
+                            }
                         }
+
                     })
                 }
             },
             fail: res => {
-                console.log(res)
+                console.log('login fail' + res)
             }
         })
     },
     onShow: function(option) {
         const self = this
-        const punchTime = wx.getStorageSync('punchTime')
-        console.log(punchTime)
-        if (punchTime && isToday(punchTime)) {
-            self.globalData.hasPunch = true
-        } else {
-            self.globalData.hasPunch = false
-        }
         if (option.scene == 1044) {
             wx.getShareInfo({
                 shareTicket: option.shareTicket,

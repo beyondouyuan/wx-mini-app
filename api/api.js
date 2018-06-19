@@ -17,7 +17,9 @@ const urls = {
   powers: '/powers', // 元气总值
   power_record: '/power_record', // 分页获取元气记录
   per_image: '/per_image',
-  openid_gid: '/openid_gid'
+  openid_gid: '/openid_gid',
+  product_image: '/product_image',
+  is_punched: '/is_punched'
 }
 
 

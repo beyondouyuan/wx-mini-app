@@ -69,8 +69,8 @@
   color: #999999
 }
 .spirit-img {
-  width: 100%;
-  max-width: 100%;
+  width: 750rpx;
+  height: 500rpx;
 }
 .arrow-btn {
   margin-left: 16rpx;

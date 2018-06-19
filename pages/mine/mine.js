@@ -1,6 +1,6 @@
 const app = getApp()
 
-import { requestAccountInfo, requestPowers, requestPowerRecord } from '../../api/index'
+import { requestAccountInfo, requestPowers, requestPowerRecord, requestProductImage } from '../../api/index'
 
 import { showShareAppMessage, parseTime, showMessageToast } from '../../utils/util'
 
@@ -14,7 +14,8 @@ Page({
     spiritImg: '',
     powersList: [],
     currentPage: 1,
-    lastPage: 2
+    lastPage: 2,
+    product_image: ''
   },
   onShareAppMessage: function(res) {
     return showShareAppMessage()
@@ -31,11 +32,11 @@ Page({
       })
     }
     this.fetchPowers()
+    this.fetchProductImage()
   },
   fetchPowers: function() {
     const sessionId = wx.getStorageSync('sessionId')
     requestPowers(sessionId).then(res => {
-      console.log(res)
       this.setData({
         powersTotal: res
       })
@@ -48,7 +49,7 @@ Page({
     const page = this.data.currentPage
     requestPowerRecord(sessionId, page).then(res => {
         const { current_page, data, last_page } = res
-        const list = data.reverse().map((item, index) => {
+        const list = data.map((item, index) => {
           item.created_at = parseTime(item.created_at, '{y}-{m}-{d}')
           return item
         })
@@ -57,6 +58,15 @@ Page({
           powersList: this.data.powersList.concat(list)
         })
       })
+  },
+  fetchProductImage: function() {
+    requestProductImage().then(res => {
+      if (!res.errMsg) {
+        this.setData({
+          product_image: res.product_image
+        })
+      }
+    })
   },
   handleShowRecord: function() {
     this.setData({

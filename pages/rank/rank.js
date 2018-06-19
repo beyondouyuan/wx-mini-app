@@ -2,13 +2,18 @@ const app = getApp()
 
 import {
   requestRank,
-  requestPunch
+  requestPunch,
+  requestWxSteps,
+  requestIsPunched
 } from '../../api/index'
 import {
   showLoadingToast,
   showMessageToast,
-  showGroupShareAppMessage
+  parseTime,
+  showGroupShareAppMessage,
+  compare
 } from '../../utils/util'
+import promise from '../../utils/promise'
 const navList = [{
   id: "today",
   index: 0,
@@ -36,8 +41,9 @@ Page({
     rankType: '今日',
     tab: 'today',
     opengid: '',
-    hasPunch: false,
-    userInfo: null
+    hasPunch: true,
+    userInfo: null,
+    todayStep: 0
   },
   onLoad: function(option) {
     const self = this
@@ -70,17 +76,66 @@ Page({
       })
     }
     this.fetchRankData()
+    this.fetchWeRunData()
   },
   onShow: function(option) {
-    this.setData({
-      hasPunch: app.globalData.hasPunch
-    })
+    this.fetchRankData()
+    this.fetchWeRunData()
+    this.fetchIsPunched()
   },
   onReachBottom: function() {
     this.lower()
   },
   onShareAppMessage: function(res) {
     return showGroupShareAppMessage()
+  },
+  fetchIsPunched: function() {
+    const sessionId = wx.getStorageSync('sessionId')
+    requestIsPunched(sessionId).then(res => {
+      if (res.code == '1') {
+        this.setData({
+          hasPunch: true
+        })
+      } else {
+        this.setData({
+          hasPunch: false
+        })
+      }
+    })
+  },
+  // 获取微信运动数据
+  fetchWeRunData: function() {
+    const promiseWeRunData = promise(wx.getWeRunData)
+    promiseWeRunData()
+      .then(res => {
+        if (res.errMsg == 'getWeRunData:ok') {
+          const {
+            encryptedData,
+            iv
+          } = res
+          const params = {
+            encryptedData,
+            iv,
+            sessionId: wx.getStorageSync('sessionId')
+          }
+          requestWxSteps(params).then(res => {
+            if (res.errorCode == '0') {
+              const {
+                stepInfoList
+              } = res.data
+              const list = stepInfoList.reverse().map((item, index) => {
+                item.timestamp = parseTime(item.timestamp, '{y}-{m}-{d}')
+                return item
+              })
+              this.setData({
+                todayStep: list[0].step
+              })
+              app.globalData.todayStep = list[0].step
+            }
+          })
+        }
+      })
+      .catch(e => console.error(e))
   },
   fixedNumber: function(num) {
     const str = "" + num
@@ -92,10 +147,8 @@ Page({
     const startTime = Date.now() // 请求开始
     const params = {
       type: this.data.tab,
-      // page: this.data.page,
       sessionId: wx.getStorageSync('sessionId'),
-      openGid: this.data.opengid || "tGrXcY0cL28aWdfya0-gYFZ4W4NTg"
-      // openGid: this.data.opengid
+      openGid: this.data.opengid
     }
     requestRank(params).then(res => {
       const endTime = Date.now() // 请求完成
@@ -146,7 +199,6 @@ Page({
       rankType: tab == 'today' ? '今日' : tab == 'yesterday' ? '昨日' : '本周',
       page: 1 // 切换分类时总是从第一页开始
     })
-    const flag = this.data.navList['']
     this.fetchRankData()
   },
   lower: function() {
@@ -168,15 +220,14 @@ Page({
       }, 1000)
       return;
     }
-    // if (this.data.todayStep < 6666) {
-    //   showMessageToast('步数超过6665步才可打卡', 'none')
-    //   return;
-    // }
+
     if (this.data.hasPunch) {
       app.globalData.hasPunch = true
-      const punchTime = Date.now()
-      wx.setStorageSync('punchTime', punchTime)
       showMessageToast('今日已打卡', 'none')
+      return;
+    }
+    if (this.data.todayStep < 6666) {
+      showMessageToast('步数超过6665步才可打卡', 'none')
       return;
     }
     this.setData({
@@ -184,13 +235,11 @@ Page({
     })
     const data = {
       sessionId: wx.getStorageSync('sessionId'),
-      steps: this.data.todayStep > 6666 ? this.data.todayStep : 7000
+      steps: this.data.todayStep
     }
     requestPunch(data).then(res => {
       if (!res.errcode) {
         app.globalData.hasPunch = true
-        const punchTime = Date.now()
-        wx.setStorageSync('punchTime', punchTime)
         setTimeout(() => {
           self.setData({
             hasPunch: true,
@@ -216,8 +265,6 @@ Page({
             lock: false // 回复按钮
           })
           app.globalData.hasPunch = true
-          const punchTime = Date.now()
-          wx.setStorageSync('punchTime', punchTime)
         }
         showMessageToast(res.msg, 'none')
       }
@@ -229,7 +276,6 @@ Page({
     const self = this
     this.touchDot = e.touches[0].pageX
     this.interval = setInterval(function() {
-      console.log(self.timer)
       self.timer++
     }, 100)
   },

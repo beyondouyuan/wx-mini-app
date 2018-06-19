@@ -45,7 +45,6 @@ Page({
       stepTotal,
       punchTotal
     } = app.globalData
-    console.log(stepTotal)
     this.setData({
       stepTotal: stepTotal,
       punchTotal: punchTotal
@@ -104,7 +103,6 @@ Page({
     // Promise.all([promisefyImageInfoData, promisefySystemInfoData, qrcodeData, avatarUrlData])
     Promise.all([promisefyImageInfoData, promisefySystemInfoData])
       .then(res => {
-        console.log(res)
         const {
           windowHeight,
           windowWidth

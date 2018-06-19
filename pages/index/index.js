@@ -5,7 +5,8 @@ import {
   requestWxSteps,
   requestHistorySteps,
   requestHistoryPunch,
-  requestPunch
+  requestPunch,
+  requestIsPunched
 } from '../../api/index'
 import {
   showSuccessToast,
@@ -45,11 +46,9 @@ Page({
       })
     }
     app.sessionIdReadyCallback = res => {
-      console.log(res)
       this.setData({
         sessionId: res.session_id
       })
-      // this.fetchData()
     }
     const sessionId = wx.getStorageSync('sessionId')
     const userInfo = wx.getStorageSync('userInfo')
@@ -63,12 +62,16 @@ Page({
     }
   },
   onShow: function() {
-    if (app.globalData.hasPunch) {
+    this.fetchIsPunched()
+    const sessionId = wx.getStorageSync('sessionId')
+    const userInfo = wx.getStorageSync('userInfo')
+    if (sessionId && userInfo) {
       this.setData({
-        hasPunch: true,
-        btnClass: 'gray',
-        btnTxt: '今日已打卡'
+        sessionId: sessionId,
+        userInfo: userInfo,
+        hasUserInfo: true
       })
+      this.fetchData()
     }
   },
   onShareAppMessage: function(option) {
@@ -91,7 +94,24 @@ Page({
     this.fetchHistorySteps()
     this.fetchHistoryPunch()
   },
-
+  fetchIsPunched: function() {
+    const sessionId = wx.getStorageSync('sessionId')
+    requestIsPunched(sessionId).then(res => {
+      if (res.code == '1') {
+        this.setData({
+          hasPunch: true,
+          btnTxt: '今日已打卡',
+          btnClass: 'gray',
+        })
+      } else {
+        this.setData({
+          hasPunch: false,
+          btnTxt: '打卡',
+          btnClass: '',
+        })
+      }
+    })
+  },
   fetchHistoryPunch: function() {
     const sessionId = this.data.sessionId
     requestHistoryPunch(sessionId).then(res => {
@@ -141,6 +161,10 @@ Page({
       console.log(e)
     })
   },
+  getRandom: function(n, m) {
+    const c = m-n+1;
+    return Math.floor(Math.random() * c + n);
+  },
   // 获取微信运动数据
   fetchWeRunData: function() {
     const promiseWeRunData = promise(wx.getWeRunData)
@@ -161,16 +185,20 @@ Page({
               const {
                 stepInfoList
               } = res.data
+
               const list = stepInfoList.reverse().map((item, index) => {
                 item.timestamp = parseTime(item.timestamp, '{y}-{m}-{d}')
                 return item
               })
               this.setData({
                 todayStep: list[0].step
+                // todayStep: list[0].step > 6666 ? list[0].step : this.getRandom(6666, 20000)
               })
-
+              app.globalData.todayStep = list[0].step
             }
           })
+        } else {
+          showMessageToast('获取微信运动数据失败！', 'none')
         }
       })
       .catch(e => console.error(e))
@@ -195,10 +223,6 @@ Page({
       }, 1000)
       return;
     }
-    // if (this.data.todayStep < 6666) {
-    //   showMessageToast('步数超过6665步才可打卡', 'none')
-    //   return;
-    // }
     if (this.data.hasPunch) {
       app.globalData.hasPunch = true
       this.setData({
@@ -207,9 +231,11 @@ Page({
         btnTxt: '今日已打卡',
         lock: false // 回复按钮
       })
-      const punchTime = Date.now()
-      wx.setStorageSync('punchTime', punchTime)
       showMessageToast('今日已打卡', 'none')
+      return;
+    }
+    if (this.data.todayStep < 6666) {
+      showMessageToast('步数超过6665步才可打卡', 'none')
       return;
     }
     this.setData({
@@ -217,13 +243,11 @@ Page({
     })
     const data = {
       sessionId: this.data.sessionId,
-      steps: this.data.todayStep > 6666 ? this.data.todayStep : 7000
+      steps: this.data.todayStep
     }
     requestPunch(data).then(res => {
       if (!res.errcode) {
         app.globalData.hasPunch = true
-        const punchTime = Date.now()
-        wx.setStorageSync('punchTime', punchTime)
         setTimeout(() => {
           self.setData({
             hasPunch: true,
@@ -249,8 +273,6 @@ Page({
             lock: false // 回复按钮
           })
           app.globalData.hasPunch = true
-          const punchTime = Date.now()
-          wx.setStorageSync('punchTime', punchTime)
         }
         showMessageToast(res.msg, 'none')
       }

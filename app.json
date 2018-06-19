@@ -26,11 +26,6 @@
         "text": "我的",
         "iconPath": "assets/icons/i-unselected-icon.png",
         "selectedIconPath": "assets/icons/i-selected-icon.png"
-      }, {
-        "pagePath": "pages/rank/rank",
-        "text": "排行",
-        "iconPath": "assets/icons/i-unselected-icon.png",
-        "selectedIconPath": "assets/icons/i-selected-icon.png"
       }]
   }
 }
